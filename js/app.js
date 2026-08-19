@@ -67,7 +67,18 @@
   // Service Worker（PWA）※単一HTML版では登録しない
   if (!window.SINGLE_FILE && 'serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
     window.addEventListener('load', function () {
-      navigator.serviceWorker.register('sw.js').catch(function (e) { console.warn('SW登録失敗', e); });
+      var hadController = !!navigator.serviceWorker.controller;
+      var reloading = false;
+
+      navigator.serviceWorker.addEventListener('controllerchange', function () {
+        if (!hadController || reloading) return;
+        reloading = true;
+        location.reload();
+      });
+
+      navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function (reg) {
+        return reg.update();
+      }).catch(function (e) { console.warn('SW登録失敗', e); });
     });
   }
 })();
