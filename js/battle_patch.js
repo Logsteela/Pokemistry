@@ -33,16 +33,15 @@
   function rememberAnswered() {
     var snap = snapshotCurrent();
     if (!snap) return;
-    if (!answered.length || answered[answered.length - 1].id !== snap.id) answered.push(snap);
+    answered.push(snap);
     if (answered.length > 30) answered.shift();
   }
 
   function previousExplanation() {
     if (!answered.length) return null;
-    var currentId = Battle.cur && Battle.cur.q ? Battle.cur.q.i : null;
     var i = answered.length - 1;
-    // 誤答解説中など「回答済みの現在問題」がまだ画面に残っている場合は、その1つ前を返す。
-    if (currentId != null && answered[i] && answered[i].id === currentId) i--;
+    // 誤答解説中は現在の問題もすでに履歴へ入っているため、その1つ前を返す。
+    if (document.querySelector('#battle .expl:not([hidden])')) i--;
     return i >= 0 ? answered[i] : null;
   }
 
@@ -71,7 +70,8 @@
     if (!box || document.getElementById('explanationPauseBtn')) return;
     var b = U.el('button', {
       id: 'explanationPauseBtn',
-      class: 'btn xsm explanation-pause-btn',
+      class: 'btn xsm',
+      style: { marginBottom: '8px', width: '100%' },
       text: explanationPaused ? '▶ 解説を再開' : '⏸ 解説を一時停止',
       onclick: function (e) {
         e.stopPropagation();
@@ -97,7 +97,13 @@
     if (!Battle.active || pauseOverlay) return;
     Battle.paused = true;
 
-    var card = U.el('div', { class: 'pause-menu-card' });
+    var card = U.el('div', {
+      style: {
+        width: 'min(92vw, 480px)', maxHeight: '86vh', overflowY: 'auto',
+        background: 'var(--bg2)', border: '1px solid var(--line)', borderRadius: '18px',
+        padding: '18px', boxShadow: '0 16px 50px rgba(0,0,0,.45)', textAlign: 'left'
+      }
+    });
     card.appendChild(U.el('div', { class: 'big', text: '一時停止中' }));
     card.appendChild(U.el('div', {
       class: 'small dim',
@@ -106,18 +112,24 @@
     }));
 
     var prev = previousExplanation();
-    var exp = U.el('div', { class: 'pause-prev-expl' });
-    exp.appendChild(U.el('div', { class: 'pause-prev-title', text: '一つ前の問題の解説' }));
+    var exp = U.el('div', {
+      style: {
+        margin: '14px 0', padding: '12px', background: 'rgba(255,179,64,.08)',
+        border: '1px solid rgba(255,179,64,.30)', borderRadius: '12px',
+        whiteSpace: 'pre-wrap', userSelect: 'text', WebkitUserSelect: 'text'
+      }
+    });
+    exp.appendChild(U.el('div', { style: { fontWeight: '800', marginBottom: '7px' }, text: '一つ前の問題の解説' }));
     if (prev) {
       exp.appendChild(U.el('div', { class: 'small dim', text: prev.question }));
-      exp.appendChild(U.el('div', { class: 'pause-prev-answer', text: '正解：' + prev.answer }));
-      exp.appendChild(U.el('div', { class: 'pause-prev-text', text: prev.explanation }));
+      exp.appendChild(U.el('div', { style: { fontWeight: '800', marginTop: '8px' }, text: '正解：' + prev.answer }));
+      exp.appendChild(U.el('div', { style: { marginTop: '6px', lineHeight: '1.65' }, text: prev.explanation }));
     } else {
       exp.appendChild(U.el('div', { class: 'small dim', text: 'まだ前の問題はありません。' }));
     }
     card.appendChild(exp);
 
-    var buttons = U.el('div', { class: 'btn-grid c2 pause-menu-actions' });
+    var buttons = U.el('div', { class: 'btn-grid c2' });
     buttons.appendChild(U.el('button', {
       class: 'btn pri', text: '再開', onclick: function () { closePause(true); }
     }));
@@ -131,7 +143,7 @@
     }));
     card.appendChild(buttons);
 
-    pauseOverlay = U.el('div', { class: 'pause battle-menu-pause', id: 'battleMenuPause' }, [card]);
+    pauseOverlay = U.el('div', { class: 'pause', id: 'battleMenuPause' }, [card]);
     document.body.appendChild(pauseOverlay);
   }
 
