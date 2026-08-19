@@ -1,5 +1,5 @@
 /* ケミポケ Service Worker : 完全オフライン動作用 */
-var CACHE = 'chemipoke-v6';
+var CACHE = 'chemipoke-v7';
 var ASSETS = [
   './',
   './index.html',
@@ -54,6 +54,29 @@ self.addEventListener('activate', function (e) {
 
 self.addEventListener('fetch', function (e) {
   if (e.request.method !== 'GET') return;
+
+  var url = new URL(e.request.url);
+  var sameOrigin = url.origin === self.location.origin;
+  var wantsDocument = e.request.mode === 'navigate' || (e.request.destination === 'document');
+
+  // HTMLとJSはオンライン時にネットワークを優先し、更新を即座に取り込む。
+  if (sameOrigin && (wantsDocument || url.pathname.endsWith('.js'))) {
+    e.respondWith(
+      fetch(e.request, { cache: 'no-store' }).then(function (res) {
+        if (res && res.status === 200) {
+          var clone = res.clone();
+          caches.open(CACHE).then(function (c) { c.put(e.request, clone); });
+        }
+        return res;
+      }).catch(function () {
+        return caches.match(e.request, { ignoreSearch: true }).then(function (hit) {
+          return hit || caches.match('./index.html');
+        });
+      })
+    );
+    return;
+  }
+
   e.respondWith(
     caches.match(e.request, { ignoreSearch: true }).then(function (hit) {
       if (hit) return hit;
