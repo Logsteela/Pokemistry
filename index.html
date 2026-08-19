@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#0d1117">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ケミポケ">
+<title>ケミポケ - 化学ポケモンバトル</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="boot">
+  <div class="boot-inner">
+    <div class="boot-logo">ケミポケ</div>
+    <div class="boot-sub">化学ポケモンバトル</div>
+    <div class="boot-bar"><i id="bootBar"></i></div>
+    <div class="boot-msg" id="bootMsg">読み込み中…</div>
+  </div>
+</div>
+
+<div id="app" hidden>
+  <header id="topbar">
+    <button id="backBtn" class="icon-btn" hidden aria-label="戻る">‹</button>
+    <div id="title">ホーム</div>
+    <div id="wallet">
+      <span class="w-item" id="wCoin"><i class="ii ii-coin"></i><b>0</b></span>
+      <span class="w-item" id="wTicket"><i class="ii ii-ticket"></i><b>0</b></span>
+      <span class="w-item" id="wStone"><i class="ii ii-stone"></i><b>0</b></span>
+      <span class="w-item" id="wIncense"><i class="ii ii-incense"></i><b>0</b></span>
+    </div>
+  </header>
+
+  <main id="view"></main>
+
+  <nav id="tabbar">
+    <button data-nav="home" class="on"><i class="ic ic-home"></i><span>ホーム</span></button>
+    <button data-nav="dex"><i class="ic ic-dex"></i><span>図鑑</span></button>
+    <button data-nav="party"><i class="ic ic-party"></i><span>編成</span></button>
+    <button data-nav="study"><i class="ic ic-book"></i><span>学習</span></button>
+    <button data-nav="shop"><i class="ic ic-shop"></i><span>ショップ</span></button>
+  </nav>
+</div>
+
+<div id="modalRoot"></div>
+<div id="toastRoot"></div>
+
+<script>window.SPRITE_URL='img/sprites.png';</script>
+<script src="js/util.js"></script>
+<script src="js/data.js"></script>
+<script src="js/db.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/quiz.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/screen_home.js"></script>
+<script src="js/screen_battle.js"></script>
+<script src="js/screen_wild.js"></script>
+<script src="js/screen_raid.js"></script>
+<script src="js/screen_dex.js"></script>
+<script src="js/screen_party.js"></script>
+<script src="js/screen_shop.js"></script>
+<script src="js/screen_study.js"></script>
+<script src="js/screen_debug.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
