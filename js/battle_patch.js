@@ -57,7 +57,7 @@
     if (!Battle.active) return;
     Battle.paused = explanationPaused;
     var b = document.getElementById('explanationPauseBtn');
-    if (b) b.textContent = explanationPaused ? '▶ 解説を再開' : '⏸ 解説を一時停止';
+    if (b) b.textContent = explanationPaused ? '▶ 解説を再開' : '解説を一時停止';
   }
 
   // visibility/focus側の既存処理で解除されても、解説停止中は戦闘時計を止め続ける。
@@ -72,7 +72,7 @@
       id: 'explanationPauseBtn',
       class: 'btn xsm',
       style: { marginBottom: '8px', width: '100%' },
-      text: explanationPaused ? '▶ 解説を再開' : '⏸ 解説を一時停止',
+      text: explanationPaused ? '▶ 解説を再開' : '解説を一時停止',
       onclick: function (e) {
         e.stopPropagation();
         setExplanationPaused(!explanationPaused);
@@ -89,7 +89,7 @@
       explanationPaused = false;
       Battle.paused = false;
       var eb = document.getElementById('explanationPauseBtn');
-      if (eb) eb.textContent = '⏸ 解説を一時停止';
+      if (eb) eb.textContent = '解説を一時停止';
     }
   }
 
@@ -153,7 +153,7 @@
     var b = old.cloneNode(true);
     b.dataset.pausePatched = '1';
     b.className = 'btn xsm';
-    b.textContent = '⏸ ポーズ';
+    b.textContent = 'ポーズ';
     b.addEventListener('click', openPause);
     old.parentNode.replaceChild(b, old);
   }
