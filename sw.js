@@ -1,5 +1,5 @@
 /* ケミポケ Service Worker : 完全オフライン動作用 */
-var CACHE = 'chemipoke-v4';
+var CACHE = 'chemipoke-v5';
 var ASSETS = [
   './',
   './index.html',
@@ -21,7 +21,7 @@ var ASSETS = [
   './icons/icon-512.png',
   './icons/icon-maskable-512.png',
   './js/util.js', './js/data.js', './js/db.js', './js/engine.js', './js/quiz.js', './js/ui.js',
-  './js/screen_home.js', './js/screen_battle.js', './js/screen_wild.js', './js/screen_raid.js',
+  './js/screen_home.js', './js/screen_battle.js', './js/battle_patch.js', './js/screen_wild.js', './js/screen_raid.js',
   './js/screen_dex.js', './js/screen_party.js', './js/screen_shop.js', './js/screen_study.js',
   './js/screen_debug.js', './js/app.js'
 ];
