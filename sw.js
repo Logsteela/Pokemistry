@@ -1,5 +1,5 @@
 /* ケミポケ Service Worker : 完全オフライン動作用 */
-var CACHE = 'chemipoke-v5';
+var CACHE = 'chemipoke-v6';
 var ASSETS = [
   './',
   './index.html',
